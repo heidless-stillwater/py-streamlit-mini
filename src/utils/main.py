@@ -57,5 +57,7 @@ sample_dict = {
   "skills": ["python", "data science", "machine learning"]
 }
 st.json(sample_dict)
-
 st.write("Dictionary view: ", sample_dict)
+
+# widgets
+st.subheader("widgets")

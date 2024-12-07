@@ -1,0 +1,24 @@
+FROM continuumio/miniconda3:4.8.2
+
+# COPY environment.yml /opt/env/
+# RUN conda env update -n base -f /opt/env/environment.yml \
+#     && conda install --no-update-deps tini \ 
+#     && conda clean -afy
+
+RUN pip install -r requirements.txt
+
+RUN useradd --shell /bin/bash d_user
+USER d_user 
+
+WORKDIR /opt/src
+COPY src/ /opt/src/
+
+# Make RUN commands use the new environment:
+#SHELL ["conda", "run", "-n", "ml_datasci", "/bin/bash", "-c"]
+ 
+# The code to run when container is started:
+# COPY run.py ./
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "ml_datasci", "python", "run.py"]
+
+ENTRYPOINT [ "tini", "-g", "--" ]
+CMD [ "python" , "hello.py" ]

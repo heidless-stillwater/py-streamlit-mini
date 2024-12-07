@@ -1,7 +1,7 @@
 import streamlit as st 
 from datetime import datetime
 
-from icecream import ic
+# from icecream import ic
 
 st.title("Advanced Form")
 
@@ -15,7 +15,7 @@ with st.form(key="user_input_form" , clear_on_submit=True):
   birth_date = st.date_input("Enter your birth date", min_value=min_date, max_value=max_date)
   
   st.write(f"birth_date: ", birth_date)
-
+ 
   
   if birth_date:
     age = max_date.year - birth_date.year

@@ -1,0 +1,21 @@
+# Dockerfile
+FROM python:3.11
+
+EXPOSE 8080
+
+WORKDIR /opt/src
+COPY src/ /opt/src/
+COPY ./requirements.txt /opt/src
+
+RUN python -m pip install --upgrade pip
+RUN pip install -r /opt/src/requirements.txt
+
+# Make RUN commands use the new environment:
+#SHELL ["conda", "run", "-n", "ml_datasci", "/bin/bash", "-c"]
+ 
+# The code to run when container is started:
+# COPY run.py ./
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "ml_datasci", "python", "run.py"]
+# ENTRYPOINT ["streamlit", "run", "fragments.py", , "-n", "ml_datasci", "--server.port=8080", "--server.address=0.0.0.0"]
+
+ENTRYPOINT ["streamlit", "run", "fragments.py", "--server.port=8501", "--server.address=0.0.0.0"]

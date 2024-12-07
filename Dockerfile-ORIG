@@ -1,0 +1,26 @@
+# Dockerfile
+#FROM python:3.11
+FROM continuumio/miniconda3
+
+EXPOSE 8080
+WORKDIR /app
+
+# Create the environment:  
+COPY ./src ./
+COPY ./environment.yml ./
+RUN conda env create -f environment.yml
+
+# RUN conda install conda-forge::docker
+# RUN conda create --name ml_datasci --file requirements.txt
+# RUN conda activate ml_datasci
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "ml_datasci", "/bin/bash", "-c"]
+
+# Demonstrate the environment is activated:
+RUN echo "Make sure streamlit is installed:"
+RUN python -c "import streamlit"
+  
+# The code to run when container is started:
+COPY run.py ./
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "ml_datasci", "python", "run.py"]
